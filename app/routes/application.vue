@@ -59,7 +59,17 @@ export default {
           this.formInputs = formInputs;
         });
     },
-
+    submitForm(formValues) {
+      console.log(this.formValues);
+      fetch('http://tiy-tn-class-api-fall-16.herokuapp.com/collections/form-chris', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.formValues)
+      });
+    },
   },
 };
 </script>
