@@ -1,85 +1,74 @@
 <template lang="html">
   <div class="">
-<div class="section page">
-<form @submit.prevent="submitForm" class="panel">
-  <div class="panel-heading">
-    <h2>Sign Up For My Web App</h2>
-    </div>
-    <div class="panel-block">
-      <p class="control has-icon" v-for="formInput in formInputs">
-      <template v-if="formInput.type === 'select'">
-          <span class="select is-fullwidth">
-            <select v-model="formValues[formInput.id]">
-              <option :value="undefined">{{formInput.label}}</option>
-              <option v-for="option in formInput.options">
-                {{ option.label }}
-              </option>
-            </select>
-          </span>
-      </template>
+    <section>
+      <div class="container">
+        <form class="panel" @submit.prevent="submitForm">
+          <p class="panel-heading">Sign Up For My Web App</p>
+          <div class="panel-block">
+            <p class="control has-icon has-icon-left" v-for="form in formInputs">
+              <template v-if="form.type === 'select'" v-model="formValues[form.id]">
+                <span class="select is-fullwidth">
+                  <select>
+                    <option v-for="option in form.options">{{ option.label }}</option>
+                  </select>
+                </span>
+              </template>
 
-      <template v-else>
-<template v-if="formInput.type === 'textarea'">
-          <textarea class="textarea input"
-            type="textarea"
-            :placeholder="formInput.label"
-            v-model="formValues[formInput.id]"></textarea>
-          <i :class="formInput.icon" class="fa" aria-hidden="true"></i>
+              <template v-else>
+<template v-if="form.type === 'textarea'">
+                  <textarea class="input textarea" :placeholder="form.label" v-model="formValues[form.id]"></textarea>
+                  <i :class="form.icon" class="fa" aria-hidden="true"></i>
 </template>
-        <template v-else>
-<input class="input" :placeholder="formInput.label" v-model="formValues[formInput.id]">
-<i :class="formInput.icon" class="fa" aria-hidden="true"></i>
+
+                <template v-else>
+<input class="input" :placeholder="form.label" v-model="formValues[form.id]">
+<i :class="form.icon" class="fa" aria-hidden="true"></i>
 </template>
-      </template>
-      </p>
-    </div>
-      <div class="panel-block">
-    <button class="button is-primary is-fullwidth">Submit</button>
-  </div>
-    </form>
+              </template>
+            </p>
+            <button class="button is-primary is-fullwidth">
+              submit
+            </button>
+          </div>
+        </form>
       </div>
+    </section>
   </div>
 </template>
 
 <script>
 const apiUrl = 'http://json-data.herokuapp.com/forms';
-
 export default {
   data() {
     return {
-      apiUrl,
       formInputs: [],
       formValues: {},
+      apiUrl,
     };
   },
-
   mounted() {
-    this.getData();
+    this.getData()
+    this.submitForm();
   },
-
   methods: {
     getData() {
-      fetch(apiUrl)
+      fetch(this.apiUrl)
         .then((r) => r.json())
         .then((formInputs) => {
-          console.log(formInputs);
           this.formInputs = formInputs;
-          console.log(formInputs);
         });
     },
-
     submitForm(formValues) {
-      fetch('http://tiny-tn.herokuapp.com/collections/form-shaun', {
+      console.log(this.formValues);
+      fetch('http://tiny-tn.herokuapp.com/collections/form-isaac', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(this.formValues)
       });
-
+    },
   },
-
-},
 };
 </script>
