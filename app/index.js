@@ -8,17 +8,17 @@ import App from './routes/application.vue';
 
 Vue.use(VueRouter);
 
-// const routes = [
+const routes = [
   // {
 //     path: '/',
 //     name: 'index',
 //     component: Index,
   // },
-// ];
+];
 
 const router = new VueRouter({
   mode: 'history',
-  // routes,
+  routes,
 });
 
 const app = new Vue({ ...App, router }).$mount('.app');
